@@ -147,25 +147,7 @@ const WordSearchGame = () => {
     return word.length * 10;
   };
 
-  const checkWord = (selection) => {
-    if (selection.length < 2) return;
 
-    const word = selection.map(([x, y]) => grid[x][y]).join("");
-    const reversedWord = word.split("").reverse().join("");
-
-    if (
-      (words.includes(word) || words.includes(reversedWord)) &&
-      !foundWords.includes(word) &&
-      !foundWords.includes(reversedWord)
-    ) {
-      const wordToAdd = words.includes(word) ? word : reversedWord;
-      const wordScore = calculateWordScore(wordToAdd);
-      setScore((prevScore) => prevScore + wordScore);
-      setFoundWords((prev) => [...prev, wordToAdd]);
-      setLastFoundWord({ word: wordToAdd, score: wordScore });
-    }
-    setSelectedCells([]);
-  };
 
   const areAdjacent = (cell1, cell2) => {
     const [x1, y1] = cell1;

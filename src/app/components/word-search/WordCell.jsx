@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-export const Cell = ({ letter, isSelected, isFound, onClick, position }) => {
+export const Cell = ({ letter, isSelected, isFound, onClick }) => {
   return (
     <motion.div
       className={`w-8 h-8 flex items-center justify-center cursor-pointer select-none
