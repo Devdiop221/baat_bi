@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
 
-export const WordList = ({ words, foundWords }) => {
+export const WordList = ({ words, foundWords, theme }) => {
   return (
-    <div className="mb-4">
-      <h3 className="text-lg font-bold mb-2">
+    <div
+      className={`mb-4 ${theme === "dark" ? "text-white" : "text-gray-800"}`}
+    >
+      <h3
+        className={`text-lg font-bold mb-2 ${
+          theme === "dark" ? "text-gray-300" : "text-gray-600"
+        }`}
+      >
         Mots à trouver : {foundWords.length}/{words.length}
       </h3>
       <div className="mb-6 flex flex-wrap gap-2 justify-center">
@@ -14,7 +20,9 @@ export const WordList = ({ words, foundWords }) => {
           ${
             foundWords.includes(word)
               ? "bg-green-500 text-white"
-              : "bg-gray-100 dark:bg-gray-800"
+              : theme === "dark"
+              ? "bg-gray-700 text-gray-400"
+              : "bg-gray-100 text-gray-700"
           }`}
             animate={
               foundWords.includes(word)

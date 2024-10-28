@@ -143,7 +143,7 @@ const WordSearchGame = () => {
     return fillEmptyCells(grid);
   };
 
-  
+
 
 
   const areAdjacent = (cell1, cell2) => {
@@ -201,7 +201,11 @@ const WordSearchGame = () => {
   if (!mounted) return null;
 
   return (
-    <Card className="w-full max-w-4xl mx-auto font-mono">
+    <Card
+      className={`w-full max-w-4xl mx-auto font-mono ${
+        theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-800"
+      }`}
+    >
       <CardHeader className="relative">
         <Button
           variant="ghost"
