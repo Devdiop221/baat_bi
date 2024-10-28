@@ -55,6 +55,8 @@ bun dev
 
 Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour jouer au jeu "Baat Bi".
 
+Ou allez sur [https://baat-bi.vercel.app/](https://baat-bi.vercel.app/) pour jouer en ligne.
+
 ## Personnalisation
 
 Vous pouvez modifier la grille de mots en mettant à jour le fichier `app/page.tsx` pour ajuster les mots à rechercher, le score, et d'autres fonctionnalités de jeu.
