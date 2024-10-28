@@ -143,10 +143,7 @@ const WordSearchGame = () => {
     return fillEmptyCells(grid);
   };
 
-  const calculateWordScore = (word) => {
-    return word.length * 10;
-  };
-
+  
 
 
   const areAdjacent = (cell1, cell2) => {
