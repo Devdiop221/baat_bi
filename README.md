@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Voici le README mis à jour avec l'ajout du développeur :
 
-## Getting Started
+---
 
-First, run the development server:
+# Baat Bi - Jeu de Mots Mêlés
+
+Baat Bi est un jeu de mots mêlés interactif construit avec [Next.js](https://nextjs.org), [Framer Motion](https://www.framer.com/motion/), et [TailwindCSS](https://tailwindcss.com/). Trouvez tous les mots cachés dans la grille et accumulez des points au fil de vos découvertes !
+
+Développé par **Devdiop**.
+
+## Fonctionnalités
+
+- **Grille de mots mêlés** : Une grille de lettres aléatoires avec des mots cachés à découvrir.
+- **Liste des mots à trouver** : Chaque mot trouvé est rayé de la liste.
+- **Score dynamique** : Gagnez des points pour chaque mot trouvé.
+- **Mode sombre** : Alternez entre le thème clair et sombre.
+
+## Prérequis
+
+- Node.js >= 18
+- npm, yarn, pnpm, ou bun pour gérer les dépendances
+
+## Installation
+
+Clonez le dépôt, installez les dépendances, puis lancez le serveur de développement :
+
+```bash
+# Cloner le projet
+git clone https://github.com/devdiop221/baat-bi.git
+cd baat-bi
+
+# Installer les dépendances
+npm install
+# ou
+yarn install
+# ou
+pnpm install
+# ou
+bun install
+```
+
+## Lancer le Jeu
+
+Démarrez le serveur de développement :
 
 ```bash
 npm run dev
-# or
+# ou
 yarn dev
-# or
+# ou
 pnpm dev
-# or
+# ou
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour jouer au jeu "Baat Bi".
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Personnalisation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Vous pouvez modifier la grille de mots en mettant à jour le fichier `app/page.tsx` pour ajuster les mots à rechercher, le score, et d'autres fonctionnalités de jeu.
 
-## Learn More
+## Ressources Utiles
 
-To learn more about Next.js, take a look at the following resources:
+Pour plus d'informations sur les outils utilisés :
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Documentation Next.js](https://nextjs.org/docs)
+- [Tutoriel interactif Next.js](https://nextjs.org/learn)
+- [Framer Motion](https://www.framer.com/motion/) - animations fluides pour une expérience interactive
+- [Tailwind CSS](https://tailwindcss.com/docs) - styles rapides et personnalisables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Déploiement sur Vercel
 
-## Deploy on Vercel
+Déployez facilement le jeu sur la plateforme [Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme), créée par les développeurs de Next.js.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Consultez notre [documentation sur le déploiement Next.js](https://nextjs.org/docs/deployment) pour plus de détails.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+Amusez-vous bien avec **Baat Bi** et défiez vos amis pour voir qui trouvera tous les mots le plus rapidement !
+
+Développé avec ❤️ par **Devdiop**.
