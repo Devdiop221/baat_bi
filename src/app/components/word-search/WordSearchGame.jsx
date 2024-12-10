@@ -143,9 +143,6 @@ const WordSearchGame = () => {
     return fillEmptyCells(grid);
   };
 
-
-
-
   const areAdjacent = (cell1, cell2) => {
     const [x1, y1] = cell1;
     const [x2, y2] = cell2;
@@ -155,31 +152,40 @@ const WordSearchGame = () => {
   };
 
   const handleCellClick = (x, y) => {
-    if (selectedCells.length > 0) {
-      const lastCell = selectedCells[selectedCells.length - 1];
-      if (!areAdjacent(lastCell, [x, y])) {
-        return;
+    const cellIndex = selectedCells.findIndex(
+      ([sx, sy]) => sx === x && sy === y
+    );
+
+    if (cellIndex !== -1) {
+      const newSelectedCells = selectedCells.filter(
+        ([sx, sy]) => !(sx === x && sy === y)
+      );
+      setSelectedCells(newSelectedCells);
+    } else {
+      if (selectedCells.length > 0) {
+        const lastCell = selectedCells[selectedCells.length - 1];
+        if (!areAdjacent(lastCell, [x, y])) {
+          return;
+        }
       }
-    }
 
-    if (selectedCells.some(([sx, sy]) => sx === x && sy === y)) {
-      return;
-    }
+      const newSelectedCells = [...selectedCells, [x, y]];
+      setSelectedCells(newSelectedCells);
 
-    const newSelectedCells = [...selectedCells, [x, y]];
-    setSelectedCells(newSelectedCells);
+      const selectedWord = newSelectedCells
+        .map(([x, y]) => grid[x][y])
+        .join("");
+      if (words.includes(selectedWord) && !foundWords.includes(selectedWord)) {
+        const wordScore = selectedWord.length * 10;
+        setScore((prev) => prev + wordScore);
+        setFoundWords((prev) => [...prev, selectedWord]);
+        setFoundCells((prev) => [...prev, newSelectedCells]);
+        setLastFoundWord({ word: selectedWord, score: wordScore });
 
-    const selectedWord = newSelectedCells.map(([x, y]) => grid[x][y]).join("");
-    if (words.includes(selectedWord) && !foundWords.includes(selectedWord)) {
-      const wordScore = selectedWord.length * 10;
-      setScore((prev) => prev + wordScore);
-      setFoundWords((prev) => [...prev, selectedWord]);
-      setFoundCells((prev) => [...prev, newSelectedCells]);
-      setLastFoundWord({ word: selectedWord, score: wordScore });
-
-      setTimeout(() => {
-        setSelectedCells([]);
-      }, 500);
+        setTimeout(() => {
+          setSelectedCells([]);
+        }, 500);
+      }
     }
   };
 
@@ -202,7 +208,7 @@ const WordSearchGame = () => {
 
   return (
     <Card
-      className={`w-full max-w-4xl mx-auto font-mono ${
+      className={`w-full max-w-4xl mx-auto font-mono p-4 sm:p-6 lg:p-8 ${
         theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-800"
       }`}
     >
@@ -219,7 +225,7 @@ const WordSearchGame = () => {
             <Moon className="h-6 w-6" />
           )}
         </Button>
-        <CardTitle className="text-center text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+        <CardTitle className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
           Mots Mêlés
         </CardTitle>
         <ScoreDisplay score={score} lastFoundWord={lastFoundWord} />
@@ -240,7 +246,7 @@ const WordSearchGame = () => {
           Nouvelle partie
         </Button>
 
-        <div className="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
+        <div className="mt-4 text-center text-sm sm:text-base lg:text-lg text-gray-500 dark:text-gray-400">
           Conseil : Sélectionnez les lettres une par une pour former le mot
         </div>
       </CardContent>
