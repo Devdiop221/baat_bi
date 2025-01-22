@@ -8,34 +8,33 @@ import { WordGrid } from "./WordGrid";
 import { WordList } from "./WordList";
 import { ScoreDisplay } from "./ScoreDisplay";
 
+const wordCategories = {
+  dev: [
+    "NEXTJS", "REACT", "TAILWIND", "TYPESCRIPT", "JAVASCRIPT",
+    "HTML", "CSS", "FRONTEND", "BACKEND", "DATABASE",
+    "API", "ROUTER", "COMPONENT", "HOOK", "STATE",
+    "PROPS", "SERVER", "CLIENT", "RENDER", "BUILD"
+  ],
+  animaux: [
+    "CHAT", "CHIEN", "LION", "TIGRE", "ELEPHANT",
+    "GIRAFE", "ZEBRE", "SINGE", "OURS", "LOUP",
+    "RENARD", "DAUPHIN", "BALEINE", "AIGLE", "HIBOU",
+    "SERPENT", "TORTUE", "PANDA", "KOALA", "JAGUAR"
+  ],
+  fruits: [
+    "POMME", "POIRE", "BANANE", "ORANGE", "FRAISE",
+    "CERISE", "RAISIN", "PECHE", "PRUNE", "KIWI",
+    "ANANAS", "MANGUE", "CITRON", "MELON", "FIGUE",
+    "PAPAYE", "LITCHI", "MURE", "COING", "DATTE"
+  ]
+};
+
 const WordSearchGame = () => {
   const { theme, setTheme } = useTheme();
   const gridSize = 20;
-  const [grid, setGrid] = useState(
-    Array(gridSize).fill(Array(gridSize).fill(""))
-  );
-  const [words] = useState([
-    "NEXTJS",
-    "REACT",
-    "TAILWIND",
-    "TYPESCRIPT",
-    "JAVASCRIPT",
-    "HTML",
-    "CSS",
-    "FRONTEND",
-    "BACKEND",
-    "DATABASE",
-    "API",
-    "ROUTER",
-    "COMPONENT",
-    "HOOK",
-    "STATE",
-    "PROPS",
-    "SERVER",
-    "CLIENT",
-    "RENDER",
-    "BUILD",
-  ]);
+  const [grid, setGrid] = useState(Array(gridSize).fill(Array(gridSize).fill("")));
+  const [words, setWords] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState('');
   const [selectedCells, setSelectedCells] = useState([]);
   const [foundWords, setFoundWords] = useState([]);
   const [foundCells, setFoundCells] = useState([]);
@@ -43,14 +42,10 @@ const WordSearchGame = () => {
   const [lastFoundWord, setLastFoundWord] = useState(null);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const createEmptyGrid = () => {
     return Array(gridSize)
-      .fill(null)
-      .map(() => Array(gridSize).fill(""));
+        .fill(null)
+        .map(() => Array(gridSize).fill(""));
   };
 
   const isValidPosition = (x, y, dx, dy, length) => {
@@ -61,7 +56,6 @@ const WordSearchGame = () => {
 
   const canPlaceWord = (word, grid, direction, startX, startY) => {
     const [dx, dy] = direction;
-
     for (let i = 0; i < word.length; i++) {
       const x = startX + i * dx;
       const y = startY + i * dy;
@@ -76,7 +70,6 @@ const WordSearchGame = () => {
   const placeWord = (word, grid, direction, startX, startY) => {
     const [dx, dy] = direction;
     const newGrid = grid.map((row) => [...row]);
-
     for (let i = 0; i < word.length; i++) {
       const x = startX + i * dx;
       const y = startY + i * dy;
@@ -88,59 +81,10 @@ const WordSearchGame = () => {
   const fillEmptyCells = (grid) => {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     return grid.map((row) =>
-      row.map((cell) =>
-        cell === ""
-          ? letters.charAt(Math.floor(Math.random() * letters.length))
-          : cell
-      )
+        row.map((cell) =>
+            cell === "" ? letters.charAt(Math.floor(Math.random() * letters.length)) : cell
+        )
     );
-  };
-
-  const initializeGrid = () => {
-    let grid = createEmptyGrid();
-    const directions = [
-      [1, 0],
-      [0, 1],
-      [1, 1],
-      [-1, 1],
-    ];
-
-    const sortedWords = [...words].sort((a, b) => b.length - a.length);
-
-    for (const word of sortedWords) {
-      let placed = false;
-      let attempts = 0;
-      const maxAttempts = 100;
-
-      while (!placed && attempts < maxAttempts) {
-        const direction =
-          directions[Math.floor(Math.random() * directions.length)];
-        const startX = Math.floor(Math.random() * gridSize);
-        const startY = Math.floor(Math.random() * gridSize);
-
-        if (
-          isValidPosition(
-            startX,
-            startY,
-            direction[0],
-            direction[1],
-            word.length
-          ) &&
-          canPlaceWord(word, grid, direction, startX, startY)
-        ) {
-          grid = placeWord(word, grid, direction, startX, startY);
-          placed = true;
-        }
-
-        attempts++;
-      }
-
-      if (!placed) {
-        console.warn(`Impossible de placer le mot: ${word}`);
-      }
-    }
-
-    return fillEmptyCells(grid);
   };
 
   const areAdjacent = (cell1, cell2) => {
@@ -153,12 +97,12 @@ const WordSearchGame = () => {
 
   const handleCellClick = (x, y) => {
     const cellIndex = selectedCells.findIndex(
-      ([sx, sy]) => sx === x && sy === y
+        ([sx, sy]) => sx === x && sy === y
     );
 
     if (cellIndex !== -1) {
       const newSelectedCells = selectedCells.filter(
-        ([sx, sy]) => !(sx === x && sy === y)
+          ([sx, sy]) => !(sx === x && sy === y)
       );
       setSelectedCells(newSelectedCells);
     } else {
@@ -173,8 +117,8 @@ const WordSearchGame = () => {
       setSelectedCells(newSelectedCells);
 
       const selectedWord = newSelectedCells
-        .map(([x, y]) => grid[x][y])
-        .join("");
+          .map(([x, y]) => grid[x][y])
+          .join("");
       if (words.includes(selectedWord) && !foundWords.includes(selectedWord)) {
         const wordScore = selectedWord.length * 10;
         setScore((prev) => prev + wordScore);
@@ -189,8 +133,50 @@ const WordSearchGame = () => {
     }
   };
 
+  const selectRandomWords = () => {
+    const categories = Object.keys(wordCategories);
+    let combinedWords = [];
+
+    categories.forEach(category => {
+      const categoryWords = wordCategories[category];
+      combinedWords = [...combinedWords, ...categoryWords];
+    });
+
+    return combinedWords
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 12);
+  };
+
+  const initializeGrid = (selectedWords) => {
+    let grid = createEmptyGrid();
+    const directions = [[1, 0], [0, 1], [1, 1], [-1, 1]];
+    const sortedWords = [...selectedWords].sort((a, b) => b.length - a.length);
+
+    for (const word of sortedWords) {
+      let placed = false;
+      let attempts = 0;
+      const maxAttempts = 100;
+
+      while (!placed && attempts < maxAttempts) {
+        const direction = directions[Math.floor(Math.random() * directions.length)];
+        const startX = Math.floor(Math.random() * gridSize);
+        const startY = Math.floor(Math.random() * gridSize);
+
+        if (isValidPosition(startX, startY, direction[0], direction[1], word.length) &&
+            canPlaceWord(word, grid, direction, startX, startY)) {
+          grid = placeWord(word, grid, direction, startX, startY);
+          placed = true;
+        }
+        attempts++;
+      }
+    }
+    return fillEmptyCells(grid);
+  };
+
   const startNewGame = () => {
-    const newGrid = initializeGrid();
+    const newWords = selectRandomWords();
+    setWords(newWords);
+    const newGrid = initializeGrid(newWords);
     setGrid(newGrid);
     setSelectedCells([]);
     setFoundWords([]);
@@ -207,50 +193,42 @@ const WordSearchGame = () => {
   if (!mounted) return null;
 
   return (
-    <Card
-      className={`w-full max-w-4xl mx-auto font-mono p-4 sm:p-6 lg:p-8 ${
-        theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-800"
-      }`}
-    >
-      <CardHeader className="relative">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute right-4 top-4"
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        >
-          {theme === "dark" ? (
-            <Sun className="h-6 w-6" />
-          ) : (
-            <Moon className="h-6 w-6" />
-          )}
-        </Button>
-        <CardTitle className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
-          Mots Mêlés
-        </CardTitle>
-        <ScoreDisplay score={score} lastFoundWord={lastFoundWord} />
-      </CardHeader>
-      <CardContent>
-        <WordList words={words} foundWords={foundWords} />
-        <WordGrid
-          grid={grid}
-          selectedCells={selectedCells}
-          foundCells={foundCells}
-          onCellClick={handleCellClick}
-        />
-
-        <Button
-          onClick={startNewGame}
-          className="mt-4 mx-auto block bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
-        >
-          Nouvelle partie
-        </Button>
-
-        <div className="mt-4 text-center text-sm sm:text-base lg:text-lg text-gray-500 dark:text-gray-400">
-          Conseil : Sélectionnez les lettres une par une pour former le mot
-        </div>
-      </CardContent>
-    </Card>
+      <Card className={`w-full max-w-4xl mx-auto font-mono p-4 sm:p-6 lg:p-8 ${
+          theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-800"
+      }`}>
+        <CardHeader className="relative">
+          <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-4 top-4"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
+          </Button>
+          <CardTitle className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+            Mots Mêlés
+          </CardTitle>
+          <ScoreDisplay score={score} lastFoundWord={lastFoundWord} />
+        </CardHeader>
+        <CardContent>
+          <WordList words={words} foundWords={foundWords} theme={theme} category={currentCategory} />
+          <WordGrid
+              grid={grid}
+              selectedCells={selectedCells}
+              foundCells={foundCells}
+              onCellClick={handleCellClick}
+          />
+          <Button
+              onClick={startNewGame}
+              className="mt-4 mx-auto block bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+          >
+            Nouvelle partie
+          </Button>
+          <div className="mt-4 text-center text-sm sm:text-base lg:text-lg text-gray-500 dark:text-gray-400">
+            Conseil : Sélectionnez les lettres une par une pour former le mot
+          </div>
+        </CardContent>
+      </Card>
   );
 };
 
