@@ -34,7 +34,7 @@ const WordSearchGame = () => {
   const gridSize = 20;
   const [grid, setGrid] = useState(Array(gridSize).fill(Array(gridSize).fill("")));
   const [words, setWords] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState('');
+  const [currentCategory] = useState('');
   const [selectedCells, setSelectedCells] = useState([]);
   const [foundWords, setFoundWords] = useState([]);
   const [foundCells, setFoundCells] = useState([]);
